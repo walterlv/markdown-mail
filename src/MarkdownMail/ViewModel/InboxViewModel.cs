@@ -21,11 +21,11 @@ namespace Walterlv.MarkdownMail
                 });
                 Mails.Add(new MailViewModel("markdown-mail 项目版本管理")
                 {
-                    FormattedBrief = "walterlv 在 lindexi's 的 Merge Request 中添加了一个讨论。",
+                    FormattedBrief = "walterlv 在 lindexi 的 Merge Request 中添加了一个讨论。",
                 });
                 Mails.Add(new MailViewModel("markdown-mail 項目版本管理")
                 {
-                    FormattedBrief = "walterlv 在 lindexi's 的 Merge Request 中添加了一個討論。",
+                    FormattedBrief = "walterlv 在 lindexi 的 Merge Request 中添加了一個討論。",
                 });
                 Mails.Add(new MailViewModel("マークダウンメールプロジェクトのバージョン管理")
                 {
