@@ -5,7 +5,22 @@
     xmlns:local="using:Walterlv.MarkdownMail"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" d:DataContext="{d:DesignData InboxViewModel}">
+    <FrameworkElement.DataContext>
+        <local:InboxViewModel/>
+    </FrameworkElement.DataContext>
+    <FrameworkElement.Resources>
+        <DataTemplate x:Key="Data.Mail.Brief" x:DataType="local:MailBrief">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="80"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="{Binding Subject}" FontSize="20" VerticalAlignment="Bottom"/>
+                <TextBlock Grid.Row="1" Text="{Binding FormattedBrief}" TextWrapping="Wrap"/>
+            </Grid>
+        </DataTemplate>
+    </FrameworkElement.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <SplitView DisplayMode="Inline" IsPaneOpen="True">
@@ -17,9 +32,8 @@
                 </StackPanel>
             </SplitView.Pane>
             <SplitView.Content>
-                <TextBlock x:Name="TestTextBlock" Margin="8">
-                    
-                </TextBlock>
+                <ListView ItemTemplate="{StaticResource Data.Mail.Brief}"
+                          ItemsSource="{Binding Mails}" HorizontalContentAlignment="Stretch"/>
             </SplitView.Content>
         </SplitView>
     </Grid>
