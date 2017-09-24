@@ -70,16 +70,17 @@
                                 <Button Content="连接" Margin="0 8" Click="ReceiveButton_Click"/>
                             </StackPanel>
                         </PivotItem>
-                        <PivotItem x:Name="VariableItem" Header="规则">
-                            <FrameworkElement.DataContext>
-                                <local:VariableDefinitionRuleViewModel/>
-                            </FrameworkElement.DataContext>
+                        <PivotItem x:Name="VariableItem" Header="规则"
+                                   d:DataContext="{d:DesignData VariableDefinitionRuleViewModel}">
                             <StackPanel>
                                 <TextBox x:Name="SenderBox" PlaceholderText="从此地址发来" Margin="0 8"/>
                                 <ListView Margin="0 8"
                                           ItemTemplate="{StaticResource Data.FormatDefinition.Variable}"
                                           ItemsSource="{Binding VariableDefinitions}"/>
-                                <Button Content="增加变量" Click="AddVariableButton_Click"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="增加变量" Click="AddVariableButton_Click"/>
+                                    <Button Content="保存变量" Margin="8 0" Click="SaveVariableButton_Click"/>
+                                </StackPanel>
                             </StackPanel>
                         </PivotItem>
                     </Pivot>

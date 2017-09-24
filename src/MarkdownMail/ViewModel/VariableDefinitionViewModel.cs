@@ -1,4 +1,7 @@
-﻿namespace Walterlv.MarkdownMail
+﻿using System;
+using Newtonsoft.Json;
+
+namespace Walterlv.MarkdownMail
 {
     public class VariableDefinitionViewModel : NotificationObject
     {
@@ -28,6 +31,7 @@
             }
         }
 
+        [JsonIgnore]
         public bool IsSubjectMatching
         {
             get => _isSubjectMatching;
@@ -47,6 +51,7 @@
             }
         }
 
+        [JsonIgnore]
         public bool IsBodyMatching
         {
             get => _isBodyMatching;
@@ -76,6 +81,19 @@
                     return;
                 }
                 _target = value;
+                switch (value)
+                {
+                    case VariableMatchingTarget.Subject:
+                        IsSubjectMatching = true;
+                        IsBodyMatching = false;
+                        break;
+                    case VariableMatchingTarget.Body:
+                        IsSubjectMatching = false;
+                        IsBodyMatching = true;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(value), value, null);
+                }
                 OnPropertyChanged();
             }
         }

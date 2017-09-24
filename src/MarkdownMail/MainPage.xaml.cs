@@ -1,10 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using MailKit;
-using MailKit.Net.Imap;
+using Newtonsoft.Json;
 
 namespace Walterlv.MarkdownMail
 {
@@ -16,6 +16,20 @@ namespace Walterlv.MarkdownMail
         public MainPage()
         {
             InitializeComponent();
+            Loaded += OnLoaded;
+        }
+
+        private async void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var file = await ApplicationData.Current.LocalFolder.GetFileAsync(
+                "VariableRuleSet.json");
+            var json = JsonSerializer.Create();
+            using (TextReader reader = new StreamReader(await file.OpenStreamForReadAsync()))
+            {
+                var vm = json.Deserialize<VariableDefinitionRuleViewModel>(
+                    new JsonTextReader(reader));
+                VariableItem.DataContext = vm;
+            }
         }
 
         public InboxViewModel InboxViewModel => (InboxViewModel) DataContext;
@@ -40,6 +54,21 @@ namespace Walterlv.MarkdownMail
             if (VariableItem.DataContext is VariableDefinitionRuleViewModel rule)
             {
                 rule.VariableDefinitions.Add(new VariableDefinitionViewModel());
+            }
+        }
+
+        private async void SaveVariableButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (VariableItem.DataContext is VariableDefinitionRuleViewModel rule)
+            {
+                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(
+                    "VariableRuleSet.json",
+                    CreationCollisionOption.ReplaceExisting);
+                var json = JsonSerializer.Create();
+                using (TextWriter writer = new StreamWriter(await file.OpenStreamForWriteAsync()))
+                {
+                    json.Serialize(writer, rule);
+                }
             }
         }
     }
