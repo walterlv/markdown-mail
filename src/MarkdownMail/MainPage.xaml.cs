@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -59,6 +61,15 @@ namespace Walterlv.MarkdownMail
                 case 2:
                     ContentFrame.Navigate(typeof(BriefRuleEditingPage));
                     break;
+            }
+        }
+
+        private async void RulesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.FirstOrDefault() == AboutItem)
+            {
+                await Launcher.LaunchUriAsync(new Uri("https://github.com/walterlv/markdown-mail"));
+                ((ListView) sender).SelectedIndex = -1;
             }
         }
     }

@@ -42,8 +42,15 @@
                         </PivotItem>
                         <PivotItem x:Name="VariableItem" Header="规则"
                                    d:DataContext="{d:DesignData VariableDefinitionRuleViewModel}">
-                            <ListView HorizontalContentAlignment="Stretch">
-                                <ListViewItem>请在右侧编辑规则</ListViewItem>
+                            <ListView HorizontalContentAlignment="Stretch" SelectionChanged="RulesListView_SelectionChanged">
+                                <ListViewItem>Please edit the rules on the right -></ListViewItem>
+                                <ListViewItem x:Name="AboutItem">
+                                    <TextBlock TextWrapping="WrapWholeWords">
+                                        <Run FontSize="18" Text="Get help and participate in open source projects:"/>
+                                        <LineBreak/>
+                                        <Run FontSize="14" Text="https://github.com/walterlv/markdown-mail"/>
+                                    </TextBlock>
+                                </ListViewItem>
                             </ListView>
                         </PivotItem>
                     </Pivot>
