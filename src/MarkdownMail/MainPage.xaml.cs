@@ -1,10 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Windows.Storage;
+﻿using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Newtonsoft.Json;
 
 namespace Walterlv.MarkdownMail
 {
@@ -67,6 +63,17 @@ namespace Walterlv.MarkdownMail
             if (VariableItem.DataContext is VariableDefinitionRuleViewModel rule)
             {
                 await JsonSettings.StoreAsync("VariableRuleSet.json", rule);
+            }
+        }
+
+        private void RemoveVariableButton_Click(object sender, RoutedEventArgs e)
+        {
+            if ((sender as FrameworkElement)?.DataContext is VariableDefinitionViewModel variable)
+            {
+                if (VariableItem.DataContext is VariableDefinitionRuleViewModel rule)
+                {
+                    rule.VariableDefinitions.Remove(variable);
+                }
             }
         }
     }
