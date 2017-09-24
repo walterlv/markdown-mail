@@ -15,7 +15,7 @@ namespace Walterlv.MarkdownMail
 
             _timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(2)
+                Interval = TimeSpan.FromSeconds(1)
             };
             _timer.Tick += OnTick;
 
