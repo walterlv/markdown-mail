@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MailKit;
 using MailKit.Net.Imap;
+using MimeKit;
 using MimeKit.Text;
 
 namespace Walterlv.MarkdownMail
@@ -96,7 +97,8 @@ namespace Walterlv.MarkdownMail
                     var message = await folder.GetMessageAsync(i);
                     Mails.Add(new MailDataViewModel(message.Subject)
                     {
-                        FormattedBrief = message.GetTextBody(TextFormat.Plain),
+                        From = ((MailboxAddress) message.From.First()).Address,
+                        Body = message.GetTextBody(TextFormat.Plain),
                     });
                     receivedCount++;
                     if (receivedCount >= count)

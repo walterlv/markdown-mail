@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -107,38 +105,7 @@ namespace Walterlv.MarkdownMail
             {
                 var originSubject = PreviewMailSubjectBox.Text;
                 var originBody = PreviewMailBodyBox.Text;
-                var format = FormatBox.Text;
-                var text = new StringBuilder(format);
-                foreach (var var in rule.VariableDefinitions
-                    .Where(x => !string.IsNullOrWhiteSpace(x.Name)
-                                && !string.IsNullOrWhiteSpace(x.Regex)))
-                {
-                    Match match;
-                    try
-                    {
-                        switch (var.Target)
-                        {
-                            case VariableMatchingTarget.Subject:
-                                match = Regex.Match(originSubject, var.Regex);
-                                break;
-                            case VariableMatchingTarget.Body:
-                                match = Regex.Match(originBody, var.Regex);
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                    }
-                    catch (ArgumentException)
-                    {
-                        continue;
-                    }
-                    if (match.Success)
-                    {
-                        var value = match.Groups[var.GroupIndex].Value;
-                        text.Replace($"{{{var.Name}}}", value);
-                    }
-                }
-                PreviewMailEffectBox.Text = text.ToString();
+                PreviewMailEffectBox.Text = rule.Format(originSubject, originBody);
             }
         }
     }

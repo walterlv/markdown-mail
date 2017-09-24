@@ -7,16 +7,18 @@
             Subject = subject;
         }
 
-        private string _formattedBrief;
+        private string _body;
 
         public string Subject { get; }
 
-        public string FormattedBrief
+        public string From { get; set; }
+
+        public string Body
         {
-            get => _formattedBrief;
+            get => _body;
             internal set
             {
-                _formattedBrief = value;
+                _body = value;
                 OnPropertyChanged();
             }
         }

@@ -14,7 +14,7 @@
                     <RowDefinition Height="80"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Text="{Binding Subject}" FontSize="20" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="1" Text="{Binding FormattedBrief}" TextWrapping="Wrap"/>
+                <TextBlock Grid.Row="1" Text="{Binding Body}" TextWrapping="Wrap"/>
             </Grid>
         </DataTemplate>
     </FrameworkElement.Resources>
@@ -22,6 +22,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ListView ItemTemplate="{StaticResource Data.Mail.Brief}"
                   ItemsSource="{Binding Mails}"
-                  HorizontalContentAlignment="Stretch"/>
+                  HorizontalContentAlignment="Stretch"
+                  SelectionChanged="Mail_SelectionChanged"/>
     </Grid>
 </Page>

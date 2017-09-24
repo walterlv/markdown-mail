@@ -17,19 +17,19 @@ namespace Walterlv.MarkdownMail
             {
                 Mails.Add(new MailDataViewModel("Git of markdown-mail project")
                 {
-                    FormattedBrief = "walterlv started a discussion to lindexi's Merge Request.",
+                    Body = "walterlv started a discussion to lindexi's Merge Request.",
                 });
                 Mails.Add(new MailDataViewModel("markdown-mail 项目版本管理")
                 {
-                    FormattedBrief = "walterlv 在 lindexi 的 Merge Request 中添加了一个讨论。",
+                    Body = "walterlv 在 lindexi 的 Merge Request 中添加了一个讨论。",
                 });
                 Mails.Add(new MailDataViewModel("markdown-mail 項目版本管理")
                 {
-                    FormattedBrief = "walterlv 在 lindexi 的 Merge Request 中添加了一個討論。",
+                    Body = "walterlv 在 lindexi 的 Merge Request 中添加了一個討論。",
                 });
                 Mails.Add(new MailDataViewModel("マークダウンメールプロジェクトのバージョン管理")
                 {
-                    FormattedBrief = "walterlvさんがlindexiのMerge Requestのディスカッションに追加しました。",
+                    Body = "walterlvさんがlindexiのMerge Requestのディスカッションに追加しました。",
                 });
             }
 #endif

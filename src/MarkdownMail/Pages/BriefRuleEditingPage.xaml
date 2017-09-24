@@ -58,7 +58,7 @@
         </Grid.ColumnDefinitions>
         <ListView Grid.Column="0" x:Name="RuleListView"
                   ItemsSource="{Binding Rules}"
-                  DisplayMemberPath="Sender"/>
+                  DisplayMemberPath="From"/>
         <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                 Content="保存规则" Margin="8 0" Click="SaveVariableButton_Click"/>
@@ -75,7 +75,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                     Text="{Binding Sender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding From, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      PlaceholderText="从此地址发来" Margin="0 8"/>
             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
                 <Button Content="增加变量" Click="AddVariableButton_Click"/>
