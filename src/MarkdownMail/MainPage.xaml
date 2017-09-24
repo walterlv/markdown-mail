@@ -28,6 +28,30 @@
                 </TextBlock>
             </Grid>
         </DataTemplate>
+        <DataTemplate x:Key="Data.FormatDefinition.Variable" x:DataType="local:VariableDefinitionViewModel">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                         Text="{Binding Name, Mode=TwoWay}" PlaceholderText="变量名"/>
+                <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                         Text="{Binding Regex, Mode=TwoWay}" PlaceholderText="正则表达式"
+                         TextWrapping="Wrap" Margin="0 8"/>
+                <RadioButton Grid.Row="2" Grid.Column="0"
+                             Content="匹配标题" GroupName="{Binding Name}"
+                             IsChecked="{Binding IsSubjectMatching, Mode=TwoWay}"/>
+                <RadioButton Grid.Row="2" Grid.Column="1"
+                             Content="匹配正文" GroupName="{Binding Name}"
+                             IsChecked="{Binding IsBodyMatching, Mode=TwoWay}"/>
+            </Grid>
+        </DataTemplate>
     </FrameworkElement.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -38,11 +62,27 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Margin="8">
-                        <TextBox x:Name="UserNameBox" PlaceholderText="用户名" Margin="8" />
-                        <PasswordBox x:Name="PasswordBox" PlaceholderText="密码" Margin="8"/>
-                        <Button Content="连接" Margin="8" Click="ReceiveButton_Click"/>
-                    </StackPanel>
+                    <Pivot Grid.Row="0">
+                        <PivotItem Header="连接">
+                            <StackPanel>
+                                <TextBox x:Name="UserNameBox" PlaceholderText="用户名" Margin="0 8" />
+                                <PasswordBox x:Name="PasswordBox" PlaceholderText="密码" Margin="0 8"/>
+                                <Button Content="连接" Margin="0 8" Click="ReceiveButton_Click"/>
+                            </StackPanel>
+                        </PivotItem>
+                        <PivotItem x:Name="VariableItem" Header="规则">
+                            <FrameworkElement.DataContext>
+                                <local:VariableDefinitionRuleViewModel/>
+                            </FrameworkElement.DataContext>
+                            <StackPanel>
+                                <TextBox x:Name="SenderBox" PlaceholderText="从此地址发来" Margin="0 8"/>
+                                <ListView Margin="0 8"
+                                          ItemTemplate="{StaticResource Data.FormatDefinition.Variable}"
+                                          ItemsSource="{Binding VariableDefinitions}"/>
+                                <Button Content="增加变量" Click="AddVariableButton_Click"/>
+                            </StackPanel>
+                        </PivotItem>
+                    </Pivot>
                     <ListView Grid.Row="1"
                               ItemTemplate="{StaticResource Data.Mail.Folder}"
                               ItemsSource="{Binding SubFolders}"

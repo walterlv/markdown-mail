@@ -34,5 +34,13 @@ namespace Walterlv.MarkdownMail
                 await folder.ReceiveAsync(10);
             }
         }
+
+        private void AddVariableButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (VariableItem.DataContext is VariableDefinitionRuleViewModel rule)
+            {
+                rule.VariableDefinitions.Add(new VariableDefinitionViewModel());
+            }
+        }
     }
 }

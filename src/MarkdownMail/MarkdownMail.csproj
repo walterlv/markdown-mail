@@ -107,6 +107,9 @@
     <Compile Include="ViewModel\InboxViewModel.cs" />
     <Compile Include="ViewModel\MailViewModel.cs" />
     <Compile Include="ViewModel\NotificationObject.cs" />
+    <Compile Include="ViewModel\VariableDefinitionRuleViewModel.cs" />
+    <Compile Include="ViewModel\VariableDefinitionViewModel.cs" />
+    <Compile Include="ViewModel\VariableMatchingTarget.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
