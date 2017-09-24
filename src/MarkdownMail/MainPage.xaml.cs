@@ -43,37 +43,26 @@ namespace Walterlv.MarkdownMail
         private async void Folder_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var folder = e.AddedItems.FirstOrDefault() as MailFolderViewModel;
-            ContentPanel.DataContext = e.AddedItems.FirstOrDefault();
+            ContentFrame.DataContext = e.AddedItems.FirstOrDefault();
             if (folder != null)
             {
                 await folder.ReceiveAsync(10);
             }
         }
 
-        private void AddVariableButton_Click(object sender, RoutedEventArgs e)
+        private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (VariableItem.DataContext is VariableDefinitionRuleViewModel rule)
+            switch (Pivot.SelectedIndex)
             {
-                rule.VariableDefinitions.Add(new VariableDefinitionViewModel());
-            }
-        }
-
-        private async void SaveVariableButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (VariableItem.DataContext is VariableDefinitionRuleViewModel rule)
-            {
-                await JsonSettings.StoreAsync("VariableRuleSet.json", rule);
-            }
-        }
-
-        private void RemoveVariableButton_Click(object sender, RoutedEventArgs e)
-        {
-            if ((sender as FrameworkElement)?.DataContext is VariableDefinitionViewModel variable)
-            {
-                if (VariableItem.DataContext is VariableDefinitionRuleViewModel rule)
-                {
-                    rule.VariableDefinitions.Remove(variable);
-                }
+                case 0:
+                    ContentFrame.Content = null;
+                    break;
+                case 1:
+                    ContentFrame.Navigate(typeof(NormalMailBoxPage));
+                    break;
+                case 2:
+                    ContentFrame.Navigate(typeof(BriefRuleEditingPage));
+                    break;
             }
         }
     }

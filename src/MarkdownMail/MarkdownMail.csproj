@@ -98,6 +98,12 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\BriefRuleEditingPage.xaml.cs">
+      <DependentUpon>BriefRuleEditingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NormalMailBoxPage.xaml.cs">
+      <DependentUpon>NormalMailBoxPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\JsonSettings.cs" />
     <Compile Include="Model\MailBoxInfo.cs" />
     <Compile Include="Model\VariableDefinition.cs" />
@@ -142,6 +148,14 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\BriefRuleEditingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NormalMailBoxPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\WritingPage.xaml">
       <SubType>Designer</SubType>

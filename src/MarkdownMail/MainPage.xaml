@@ -10,16 +10,6 @@
         <local:InboxViewModel/>
     </FrameworkElement.DataContext>
     <FrameworkElement.Resources>
-        <DataTemplate x:Key="Data.Mail.Brief" x:DataType="local:MailDataViewModel">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="80"/>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Text="{Binding Subject}" FontSize="20" VerticalAlignment="Bottom"/>
-                <TextBlock Grid.Row="1" Text="{Binding FormattedBrief}" TextWrapping="Wrap"/>
-            </Grid>
-        </DataTemplate>
         <DataTemplate x:Key="Data.Mail.Folder" x:DataType="local:MailFolderViewModel">
             <Grid>
                 <TextBlock FontSize="20">
@@ -28,42 +18,13 @@
                 </TextBlock>
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="Data.FormatDefinition.Variable" x:DataType="local:VariableDefinitionViewModel">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 0 40 0"
-                         Text="{Binding Name, Mode=TwoWay}" PlaceholderText="变量名"/>
-                <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"
-                        Width="40" Height="40" Margin="0 0 0 -8"
-                        Click="RemoveVariableButton_Click">
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE107;" />
-                </Button>
-                <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                         Text="{Binding Regex, Mode=TwoWay}" PlaceholderText="正则表达式"
-                         TextWrapping="Wrap" Margin="0 8"/>
-                <RadioButton Grid.Row="2" Grid.Column="0"
-                             Content="匹配标题" GroupName="{Binding Name}"
-                             IsChecked="{Binding IsSubjectMatching, Mode=TwoWay}"/>
-                <RadioButton Grid.Row="2" Grid.Column="1"
-                             Content="匹配正文" GroupName="{Binding Name}"
-                             IsChecked="{Binding IsBodyMatching, Mode=TwoWay}"/>
-            </Grid>
-        </DataTemplate>
     </FrameworkElement.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <SplitView DisplayMode="Inline" IsPaneOpen="True">
             <SplitView.Pane>
                 <Grid>
-                    <Pivot x:Name="Pivot">
+                    <Pivot x:Name="Pivot" SelectionChanged="Pivot_SelectionChanged">
                         <PivotItem Header="连接">
                             <StackPanel>
                                 <TextBox x:Name="HostBox" PlaceholderText="服务器地址" Margin="0 8" />
@@ -81,27 +42,16 @@
                         </PivotItem>
                         <PivotItem x:Name="VariableItem" Header="规则"
                                    d:DataContext="{d:DesignData VariableDefinitionRuleViewModel}">
-                            <StackPanel>
-                                <TextBox PlaceholderText="从此地址发来" Margin="0 8"/>
-                                <ListView Margin="0 8" SelectionMode="None"
-                                          ItemTemplate="{StaticResource Data.FormatDefinition.Variable}"
-                                          ItemsSource="{Binding VariableDefinitions}"
-                                          HorizontalContentAlignment="Stretch"/>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Content="增加变量" Click="AddVariableButton_Click"/>
-                                    <Button Content="保存变量" Margin="8 0" Click="SaveVariableButton_Click"/>
-                                </StackPanel>
-                            </StackPanel>
+                            <ListView HorizontalContentAlignment="Stretch">
+                                <ListViewItem>编辑规则</ListViewItem>
+                            </ListView>
                         </PivotItem>
                     </Pivot>
                 </Grid>
             </SplitView.Pane>
             <SplitView.Content>
-                <Grid x:Name="ContentPanel">
-                    <ListView ItemTemplate="{StaticResource Data.Mail.Brief}"
-                              ItemsSource="{Binding Mails}"
-                              HorizontalContentAlignment="Stretch"/>
-                </Grid>
+                <Frame x:Name="ContentFrame" />
+
             </SplitView.Content>
         </SplitView>
     </Grid>
