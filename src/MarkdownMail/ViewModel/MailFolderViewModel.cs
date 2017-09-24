@@ -8,7 +8,7 @@ using MimeKit.Text;
 
 namespace Walterlv.MarkdownMail
 {
-    public class MailFolderViewModel : NotificationObject
+    public class MailFolderViewModel : MailViewModel
     {
         public MailFolderViewModel(ImapClient client, IMailFolder folder)
         {
@@ -35,7 +35,7 @@ namespace Walterlv.MarkdownMail
 
         public int RecentMessageCount { get; protected set; }
 
-        public ObservableCollection<MailViewModel> Mails { get; } = new ObservableCollection<MailViewModel>();
+        public ObservableCollection<MailDataViewModel> Mails { get; } = new ObservableCollection<MailDataViewModel>();
 
         public ObservableCollection<MailFolderViewModel> SubFolders { get; } = new ObservableCollection<MailFolderViewModel>();
 
@@ -94,7 +94,7 @@ namespace Walterlv.MarkdownMail
                 for (var i = folder.Count - 1; i >= 0; i--)
                 {
                     var message = await folder.GetMessageAsync(i);
-                    Mails.Add(new MailViewModel(message.Subject)
+                    Mails.Add(new MailDataViewModel(message.Subject)
                     {
                         FormattedBrief = message.GetTextBody(TextFormat.Plain),
                     });

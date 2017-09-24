@@ -21,22 +21,27 @@ namespace Walterlv.MarkdownMail
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
         {
-            var file = await ApplicationData.Current.LocalFolder.GetFileAsync(
-                "VariableRuleSet.json");
-            var json = JsonSerializer.Create();
-            using (TextReader reader = new StreamReader(await file.OpenStreamForReadAsync()))
-            {
-                var vm = json.Deserialize<VariableDefinitionRuleViewModel>(
-                    new JsonTextReader(reader));
-                VariableItem.DataContext = vm;
-            }
+            var mailBoxInfo = await JsonSettings.ReadAsync<MailBoxInfo>("Mails.json");
+            HostBox.Text = mailBoxInfo?.ImapHost ?? "";
+            UserNameBox.Text = mailBoxInfo?.UserName ?? "";
+            PasswordBox.Focus(FocusState.Programmatic);
+
+            VariableItem.DataContext =
+                await JsonSettings.ReadAsync<VariableDefinitionRuleViewModel>(
+                    "VariableRuleSet.json") ?? new VariableDefinitionRuleViewModel();
         }
 
         public InboxViewModel InboxViewModel => (InboxViewModel) DataContext;
 
-        private async void ReceiveButton_Click(object sender, RoutedEventArgs e)
+        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            await InboxViewModel.Connect(UserNameBox.Text, PasswordBox.Password);
+            await InboxViewModel.ConnectAsync(HostBox.Text, UserNameBox.Text, PasswordBox.Password);
+            await JsonSettings.StoreAsync("Mails.json", new MailBoxInfo
+            {
+                ImapHost = HostBox.Text,
+                UserName = UserNameBox.Text,
+            });
+            Pivot.SelectedIndex = 1;
         }
 
         private async void Folder_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -61,14 +66,7 @@ namespace Walterlv.MarkdownMail
         {
             if (VariableItem.DataContext is VariableDefinitionRuleViewModel rule)
             {
-                var file = await ApplicationData.Current.LocalFolder.CreateFileAsync(
-                    "VariableRuleSet.json",
-                    CreationCollisionOption.ReplaceExisting);
-                var json = JsonSerializer.Create();
-                using (TextWriter writer = new StreamWriter(await file.OpenStreamForWriteAsync()))
-                {
-                    json.Serialize(writer, rule);
-                }
+                await JsonSettings.StoreAsync("VariableRuleSet.json", rule);
             }
         }
     }

@@ -10,7 +10,7 @@
         <local:InboxViewModel/>
     </FrameworkElement.DataContext>
     <FrameworkElement.Resources>
-        <DataTemplate x:Key="Data.Mail.Brief" x:DataType="local:MailViewModel">
+        <DataTemplate x:Key="Data.Mail.Brief" x:DataType="local:MailDataViewModel">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
@@ -58,17 +58,20 @@
         <SplitView DisplayMode="Inline" IsPaneOpen="True">
             <SplitView.Pane>
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Pivot Grid.Row="0">
+                    <Pivot x:Name="Pivot">
                         <PivotItem Header="连接">
                             <StackPanel>
+                                <TextBox x:Name="HostBox" PlaceholderText="服务器地址" Margin="0 8" />
                                 <TextBox x:Name="UserNameBox" PlaceholderText="用户名" Margin="0 8" />
-                                <PasswordBox x:Name="PasswordBox" PlaceholderText="密码" Margin="0 8"/>
-                                <Button Content="连接" Margin="0 8" Click="ReceiveButton_Click"/>
+                                <PasswordBox x:Name="PasswordBox" PlaceholderText="密码" Margin="0 8" />
+                                <Button Content="连接" Margin="0 8" Click="ConnectButton_Click" />
                             </StackPanel>
+                        </PivotItem>
+                        <PivotItem Header="收件箱">
+                            <ListView ItemTemplate="{StaticResource Data.Mail.Folder}"
+                                      ItemsSource="{Binding SubFolders}"
+                                      SelectionChanged="Folder_SelectionChanged">
+                            </ListView>
                         </PivotItem>
                         <PivotItem x:Name="VariableItem" Header="规则"
                                    d:DataContext="{d:DesignData VariableDefinitionRuleViewModel}">
@@ -84,11 +87,6 @@
                             </StackPanel>
                         </PivotItem>
                     </Pivot>
-                    <ListView Grid.Row="1"
-                              ItemTemplate="{StaticResource Data.Mail.Folder}"
-                              ItemsSource="{Binding SubFolders}"
-                              SelectionChanged="Folder_SelectionChanged">
-                    </ListView>
                 </Grid>
             </SplitView.Pane>
             <SplitView.Content>

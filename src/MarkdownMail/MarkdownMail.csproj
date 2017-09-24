@@ -98,6 +98,8 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\JsonSettings.cs" />
+    <Compile Include="Model\MailBoxInfo.cs" />
     <Compile Include="Model\VariableDefinition.cs" />
     <Compile Include="Pages\WritingPage.xaml.cs">
       <DependentUpon>WritingPage.xaml</DependentUpon>
@@ -106,8 +108,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\MailFolderViewModel.cs" />
     <Compile Include="ViewModel\InboxViewModel.cs" />
+    <Compile Include="ViewModel\MailDataViewModel.cs" />
+    <Compile Include="ViewModel\MailSettingsViewModel.cs" />
     <Compile Include="ViewModel\MailViewModel.cs" />
     <Compile Include="ViewModel\NotificationObject.cs" />
+    <Compile Include="ViewModel\VariableDefinitionRuleSetExtensions.cs" />
+    <Compile Include="ViewModel\VariableDefinitionRuleSetViewModel.cs" />
     <Compile Include="ViewModel\VariableDefinitionRuleViewModel.cs" />
     <Compile Include="ViewModel\VariableDefinitionViewModel.cs" />
     <Compile Include="Model\VariableMatchingTarget.cs" />
