@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -21,7 +22,17 @@ namespace Walterlv.MarkdownMail
 
         private async void ReceiveButton_Click(object sender, RoutedEventArgs e)
         {
-            await InboxViewModel.ReceiveAsync(UserNameBox.Text, PasswordBox.Password);
+            await InboxViewModel.Connect(UserNameBox.Text, PasswordBox.Password);
+        }
+
+        private async void Folder_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var folder = e.AddedItems.FirstOrDefault() as MailFolderViewModel;
+            ContentPanel.DataContext = e.AddedItems.FirstOrDefault();
+            if (folder != null)
+            {
+                await folder.ReceiveAsync(10);
+            }
         }
     }
 }

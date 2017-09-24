@@ -1,8 +1,8 @@
 ﻿namespace Walterlv.MarkdownMail
 {
-    public class MailBrief : NotificationObject
+    public class MailViewModel : NotificationObject
     {
-        public MailBrief(string subject)
+        public MailViewModel(string subject)
         {
             Subject = subject;
         }

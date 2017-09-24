@@ -10,7 +10,7 @@
         <local:InboxViewModel/>
     </FrameworkElement.DataContext>
     <FrameworkElement.Resources>
-        <DataTemplate x:Key="Data.Mail.Brief" x:DataType="local:MailBrief">
+        <DataTemplate x:Key="Data.Mail.Brief" x:DataType="local:MailViewModel">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
@@ -20,20 +20,41 @@
                 <TextBlock Grid.Row="1" Text="{Binding FormattedBrief}" TextWrapping="Wrap"/>
             </Grid>
         </DataTemplate>
+        <DataTemplate x:Key="Data.Mail.Folder" x:DataType="local:MailFolderViewModel">
+            <Grid>
+                <TextBlock FontSize="20">
+                    <Run Text="{Binding Name}"/>
+                    <Run Text=" ("/><Run Text="{Binding RecentMessageCount}"/><Run Text=")"/>
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
     </FrameworkElement.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <SplitView DisplayMode="Inline" IsPaneOpen="True">
             <SplitView.Pane>
-                <StackPanel Margin="8">
-                    <TextBox x:Name="UserNameBox" Margin="8" />
-                    <PasswordBox x:Name="PasswordBox" Margin="8"/>
-                    <Button Content="收邮件" Margin="8" Click="ReceiveButton_Click"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Margin="8">
+                        <TextBox x:Name="UserNameBox" PlaceholderText="用户名" Margin="8" />
+                        <PasswordBox x:Name="PasswordBox" PlaceholderText="密码" Margin="8"/>
+                        <Button Content="连接" Margin="8" Click="ReceiveButton_Click"/>
+                    </StackPanel>
+                    <ListView Grid.Row="1"
+                              ItemTemplate="{StaticResource Data.Mail.Folder}"
+                              ItemsSource="{Binding SubFolders}"
+                              SelectionChanged="Folder_SelectionChanged">
+                    </ListView>
+                </Grid>
             </SplitView.Pane>
             <SplitView.Content>
-                <ListView ItemTemplate="{StaticResource Data.Mail.Brief}"
-                          ItemsSource="{Binding Mails}" HorizontalContentAlignment="Stretch"/>
+                <Grid x:Name="ContentPanel">
+                    <ListView ItemTemplate="{StaticResource Data.Mail.Brief}"
+                              ItemsSource="{Binding Mails}" HorizontalContentAlignment="Stretch"/>
+                </Grid>
             </SplitView.Content>
         </SplitView>
     </Grid>
