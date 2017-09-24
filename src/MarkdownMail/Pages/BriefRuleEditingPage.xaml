@@ -5,11 +5,12 @@
     xmlns:local="using:Walterlv.MarkdownMail"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" d:DataContext="{d:DesignData VariableDefinitionRuleSetViewModel}">
     <FrameworkElement.Resources>
         <DataTemplate x:Key="Data.FormatDefinition.Variable" x:DataType="local:VariableDefinitionViewModel">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -19,19 +20,27 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 0 40 0"
-                         Text="{Binding Name, Mode=TwoWay}" PlaceholderText="变量名"/>
+                         Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="变量名"/>
                 <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"
                         Width="40" Height="40" Margin="0 0 0 -8"
                         Click="RemoveVariableButton_Click">
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE107;" />
                 </Button>
                 <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                         Text="{Binding Regex, Mode=TwoWay}" PlaceholderText="正则表达式"
-                         TextWrapping="Wrap" Margin="0 8"/>
-                <RadioButton Grid.Row="2" Grid.Column="0"
+                         Text="{Binding Regex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="正则表达式"
+                         TextWrapping="Wrap" Margin="0 8"
+                         TextChanged="Variable_TextChanged"/>
+                <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                         Text="{Binding GroupIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="正则组序号"
+                         TextWrapping="Wrap" Margin="0 8"
+                         TextChanged="Regex_TextChanged"/>
+                <RadioButton Grid.Row="3" Grid.Column="0"
                              Content="匹配标题" GroupName="{Binding Name}"
                              IsChecked="{Binding IsSubjectMatching, Mode=TwoWay}"/>
-                <RadioButton Grid.Row="2" Grid.Column="1"
+                <RadioButton Grid.Row="3" Grid.Column="1"
                              Content="匹配正文" GroupName="{Binding Name}"
                              IsChecked="{Binding IsBodyMatching, Mode=TwoWay}"/>
             </Grid>
@@ -39,16 +48,69 @@
     </FrameworkElement.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
-            <TextBox PlaceholderText="从此地址发来" Margin="0 8"/>
-            <ListView Margin="0 8" SelectionMode="None"
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListView Grid.Column="0" x:Name="RuleListView"
+                  ItemsSource="{Binding Rules}"
+                  DisplayMemberPath="Sender"/>
+        <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+                HorizontalAlignment="Center" VerticalAlignment="Center"
+                Content="保存规则" Margin="8 0" Click="SaveVariableButton_Click"/>
+        <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" x:Name="OneRulePanel"
+              DataContext="{Binding SelectedItem, ElementName=RuleListView}"
+              d:DataContext="{d:DesignData VariableDefinitionRuleViewModel}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                     Text="{Binding Sender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     PlaceholderText="从此地址发来" Margin="0 8"/>
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                <Button Content="增加变量" Click="AddVariableButton_Click"/>
+            </StackPanel>
+            <ListView Grid.Row="2" Grid.Column="0" Margin="0 8" SelectionMode="None"
                       ItemTemplate="{StaticResource Data.FormatDefinition.Variable}"
                       ItemsSource="{Binding VariableDefinitions}"
-                      HorizontalContentAlignment="Stretch"/>
-            <StackPanel Orientation="Horizontal">
-                <Button Content="增加变量" Click="AddVariableButton_Click"/>
-                <Button Content="保存变量" Margin="8 0" Click="SaveVariableButton_Click"/>
-            </StackPanel>
-        </StackPanel>
+                      HorizontalContentAlignment="Stretch" />
+            <Grid Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBox Grid.Row="0" x:Name="FormatBox"
+                         Text="{Binding CustomFormat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PlaceholderText="在此处编辑自定义格式" AcceptsReturn="True" TextWrapping="Wrap"
+                         TextChanged="CustomFormat_TextChanged"/>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBox Grid.Row="0" x:Name="PreviewMailSubjectBox"
+                             Text="{Binding PreviewSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             PlaceholderText="在此处粘贴测试邮件标题"
+                             TextChanged="PreviewMailSubject_TextChanged"/>
+                    <TextBox Grid.Row="1" x:Name="PreviewMailBodyBox"
+                             Text="{Binding PreviewBody, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             PlaceholderText="在此处粘贴测试邮件正文" AcceptsReturn="True" TextWrapping="Wrap"
+                             TextChanged="PreviewMailBody_TextChanged"/>
+                </Grid>
+                <TextBox Grid.Row="2" x:Name="PreviewMailEffectBox" IsReadOnly="True"
+                         PlaceholderText="此处将显示自定义格式的邮件预览" TextWrapping="Wrap"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>

@@ -43,7 +43,7 @@
                         <PivotItem x:Name="VariableItem" Header="规则"
                                    d:DataContext="{d:DesignData VariableDefinitionRuleViewModel}">
                             <ListView HorizontalContentAlignment="Stretch">
-                                <ListViewItem>编辑规则</ListViewItem>
+                                <ListViewItem>请在右侧编辑规则</ListViewItem>
                             </ListView>
                         </PivotItem>
                     </Pivot>
@@ -51,7 +51,6 @@
             </SplitView.Pane>
             <SplitView.Content>
                 <Frame x:Name="ContentFrame" />
-
             </SplitView.Content>
         </SplitView>
     </Grid>

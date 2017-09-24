@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -20,6 +21,9 @@ namespace Walterlv.MarkdownMail
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            //Encoding.GetEncoding("GBK");
         }
 
         /// <summary>

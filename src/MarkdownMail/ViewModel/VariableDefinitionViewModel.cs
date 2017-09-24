@@ -10,6 +10,7 @@ namespace Walterlv.MarkdownMail
         private bool _isSubjectMatching;
         private bool _isBodyMatching = true;
         private VariableMatchingTarget _target = VariableMatchingTarget.Body;
+        private int _groupIndex;
 
         public string Name
         {
@@ -27,6 +28,16 @@ namespace Walterlv.MarkdownMail
             set
             {
                 _regex = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int GroupIndex
+        {
+            get => _groupIndex;
+            set
+            {
+                _groupIndex = value;
                 OnPropertyChanged();
             }
         }

@@ -21,10 +21,6 @@ namespace Walterlv.MarkdownMail
             HostBox.Text = mailBoxInfo?.ImapHost ?? "";
             UserNameBox.Text = mailBoxInfo?.UserName ?? "";
             PasswordBox.Focus(FocusState.Programmatic);
-
-            VariableItem.DataContext =
-                await JsonSettings.ReadAsync<VariableDefinitionRuleViewModel>(
-                    "VariableRuleSet.json") ?? new VariableDefinitionRuleViewModel();
         }
 
         public InboxViewModel InboxViewModel => (InboxViewModel) DataContext;
